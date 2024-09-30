@@ -1,9 +1,9 @@
 <?php
 session_start(); // Memulai session
 
-// Memeriksa apakah indeks tugas valid
+// Memeriksa apakah indeks tugas ada dalam URL
 if (!isset($_GET['index']) || !isset($_SESSION['todos'][$_GET['index']])) {
-    header("Location: index.php"); // Mengalihkan ke index jika indeks tidak valid
+    header("Location: index.php"); // Mengalihkan jika indeks tidak valid
     exit;
 }
 
@@ -14,19 +14,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $task = htmlspecialchars(trim($_POST['task'])); // Mengambil dan memangkas input tugas
     $priority = htmlspecialchars(trim($_POST['priority'])); // Mengambil prioritas tugas
     $description = htmlspecialchars(trim($_POST['description'])); // Mengambil deskripsi tugas
+    $task_date = htmlspecialchars(trim($_POST['task_date'])); // Mengambil tanggal tugas
+    $deadline_date = htmlspecialchars(trim($_POST['deadline_date'])); // Mengambil tanggal deadline
 
-    // Validasi panjang karakter
+    // Validasi panjang tugas dan keterangan
     if (strlen($task) > 255 || strlen($description) > 500) {
-        $_SESSION['error_message'] = "Karakter terlalu panjang!";
+        $_SESSION['error_message'] = "Tugas atau deskripsi terlalu panjang!"; // Pesan error
     } else {
         // Memperbarui tugas dalam daftar
         $_SESSION['todos'][$index] = [
             'task' => $task,
             'priority' => $priority,
             'description' => $description,
+            'task_date' => $task_date, // Memperbarui tanggal tugas
+            'deadline_date' => $deadline_date, // Memperbarui tanggal deadline
             'status' => $_SESSION['todos'][$index]['status'] // Mempertahankan status tugas
         ];
-        $_SESSION['success_message'] = "Tugas berhasil diubah!"; // Notifikasi pesan tugas berhasil diubah
+        $_SESSION['success_message'] = "Tugas berhasil diubah!"; // Pesan sukses
         header("Location: index.php"); // Mengalihkan kembali ke halaman index
         exit;
     }
@@ -42,7 +46,6 @@ $current_task = $_SESSION['todos'][$index];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Tugas</title>
-    <!-- CSS Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -68,11 +71,18 @@ $current_task = $_SESSION['todos'][$index];
                 <label for="description" class="form-label">Keterangan Tugas</label>
                 <textarea name="description" id="description" class="form-control" rows="3" required><?php echo htmlspecialchars($current_task['description']); ?></textarea> <!-- Input untuk keterangan tugas -->
             </div>
+            <div class="mb-3">
+                <label for="task_date" class="form-label">Tanggal Tugas</label>
+                <input type="datetime-local" name="task_date" id="task_date" class="form-control" value="<?php echo htmlspecialchars($current_task['task_date']); ?>" required> <!-- Input untuk tanggal tugas -->
+            </div>
+            <div class="mb-3">
+                <label for="deadline_date" class="form-label">Tanggal Deadline</label>
+                <input type="datetime-local" name="deadline_date" id="deadline_date" class="form-control" value="<?php echo htmlspecialchars($current_task['deadline_date']); ?>" required> <!-- Input untuk tanggal deadline -->
+            </div>
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button> <!-- Tombol untuk menyimpan perubahan -->
             <a href="index.php" class="btn btn-secondary">Batal</a> <!-- Tombol untuk membatalkan dan kembali -->
         </form>
     </div>
-    <!-- Script JS Bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

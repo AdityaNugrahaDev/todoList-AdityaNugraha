@@ -6,10 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $task = htmlspecialchars(trim($_POST['task'])); // Mengambil dan memangkas input tugas
     $priority = htmlspecialchars(trim($_POST['priority'])); // Mengambil prioritas tugas
     $description = htmlspecialchars(trim($_POST['description'])); // Mengambil deskripsi tugas
+    $task_date = htmlspecialchars(trim($_POST['task_date'])); // Mengambil tanggal tugas
+    $deadline_date = htmlspecialchars(trim($_POST['deadline_date'])); // Mengambil tanggal deadline
 
-    // Validasi panjang karakter
+    // Validasi panjang tugas dan keterangan
     if (strlen($task) > 255 || strlen($description) > 500) {
-        $_SESSION['error_message'] = "Karakter terlalu panjang!";
+        $_SESSION['error_message'] = "Tugas atau deskripsi terlalu panjang!"; // Pesan error
     } else {
         // Inisialisasi array tugas jika belum ada
         if (!isset($_SESSION['todos'])) {
@@ -21,9 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'task' => $task,
             'priority' => $priority,
             'description' => $description,
-            'status' => 'Belum Dikerjakan' // Status awal setelah menambahkan tugas
+            'task_date' => $task_date, // Menyimpan tanggal tugas
+            'deadline_date' => $deadline_date, // Menyimpan tanggal deadline
+            'status' => 'Belum Dikerjakan' // Status awal
         ];
-        $_SESSION['success_message'] = "Tugas berhasil ditambahkan!"; // Notifikasi pesan tugas berhasil ditambahkan ke daftar list
+        $_SESSION['success_message'] = "Tugas berhasil ditambahkan!"; // Pesan sukses
     }
 
     header("Location: index.php"); // Mengalihkan kembali ke halaman index
@@ -37,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Tugas</title>
-    <!-- CSS Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -63,11 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="description" class="form-label">Keterangan Tugas</label>
                 <textarea name="description" id="description" class="form-control" rows="3" required></textarea> <!-- Input untuk keterangan tugas -->
             </div>
+            <div class="mb-3">
+                <label for="task_date" class="form-label">Tanggal Tugas</label>
+                <input type="datetime-local" name="task_date" id="task_date" class="form-control" required> <!-- Input untuk tanggal tugas -->
+            </div>
+            <div class="mb-3">
+                <label for="deadline_date" class="form-label">Tanggal Deadline</label>
+                <input type="datetime-local" name="deadline_date" id="deadline_date" class="form-control" required> <!-- Input untuk tanggal deadline -->
+            </div>
             <button type="submit" class="btn btn-primary">Tambah Tugas</button> <!-- Tombol untuk menambah tugas -->
             <a href="index.php" class="btn btn-secondary">Kembali</a> <!-- Tombol untuk kembali ke halaman index -->
         </form>
     </div>
-    <!-- Script JS Bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

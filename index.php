@@ -6,17 +6,17 @@ if (!isset($_SESSION['todos'])) {
     $_SESSION['todos'] = [];
 }
 
-// Menangani notfikasi pesan sukses dan error
+// Menangani pesan sukses dan error
 $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
-unset($_SESSION['success_message']); // Menghapus notifikasi pesan setelah ditampilkan
+unset($_SESSION['success_message']); // Menghapus pesan setelah ditampilkan
 
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-unset($_SESSION['error_message']); // Menghapus notifikasi pesan error setelah ditampilkan
+unset($_SESSION['error_message']); // Menghapus pesan error setelah ditampilkan
 
 // Menandai tugas sebagai selesai
 if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) {
     $_SESSION['todos'][$_GET['mark_done']]['status'] = 'Selesai'; // Memperbarui status
-    $_SESSION['success_message'] = "Tugas berhasil ditandai sebagai selesai!"; // Menerima notifikasi pesan sukses
+    $_SESSION['success_message'] = "Tugas berhasil ditandai sebagai selesai!"; // Pesan sukses
     header("Location: index.php"); // Mengalihkan kembali ke halaman index
     exit;
 }
@@ -27,8 +27,7 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi To-Do List Sederhana</title>
-    <!-- CSS Bootstrap 5 -->
+    <title>Aplikasi To-Do List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -55,9 +54,11 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
                         <tr>
                             <th>No</th>
                             <th>Nama Tugas</th>
+                            <th>Tanggal Mulai</th>
                             <th>Tingkat Prioritas</th>
-                            <th>Keterangan Tugas</th>
-                            <th>Status Tugas</th>
+                            <th>Keterangan</th>
+                            <th>Tanggal Deadline</th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -69,6 +70,8 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
                                     <td><?php echo htmlspecialchars($todo['task']); ?></td>
                                     <td><?php echo htmlspecialchars($todo['priority']); ?></td>
                                     <td><?php echo htmlspecialchars($todo['description']); ?></td>
+                                    <td><?php echo htmlspecialchars($todo['task_date']); ?></td>
+                                    <td><?php echo htmlspecialchars($todo['deadline_date']); ?></td>
                                     <td><?php echo htmlspecialchars($todo['status']); ?></td>
                                     <td>
                                         <a href="ubah.php?index=<?php echo $index; ?>" class="btn btn-warning btn-sm">Edit</a> <!-- Tombol untuk mengedit tugas -->
@@ -81,7 +84,7 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="text-center">Tidak ada tugas yang tersedia</td> <!-- Pesan jika tidak ada tugas -->
+                                <td colspan="8" class="text-center">Tidak ada tugas yang tersedia</td> <!-- Pesan jika tidak ada tugas -->
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -89,7 +92,7 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
             </div>
         </div>
     </div>
-    <!-- Script JS Bootstrap 5 -->
+    <!-- JS Bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

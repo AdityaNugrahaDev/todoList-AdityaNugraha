@@ -1,14 +1,14 @@
 <?php
 session_start(); // Memulai session
 
-// Memeriksa apakah indeks tugas ada dalam list
+// Memeriksa apakah indeks tugas ada dalam URL
 if (isset($_GET['index'])) {
     $index = $_GET['index'];
     // Menghapus tugas dari daftar
     unset($_SESSION['todos'][$index]);
     // Mengatur ulang indeks tugas
     $_SESSION['todos'] = array_values($_SESSION['todos']);
-    // Mengatur notifikasi pesan tugas berhasil dihapus dari daftar list
+    // Mengatur pesan sukses
     $_SESSION['success_message'] = "Tugas berhasil dihapus!";
 }
 
