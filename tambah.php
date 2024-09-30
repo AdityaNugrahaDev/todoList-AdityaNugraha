@@ -1,5 +1,5 @@
 <?php
-session_start(); // Memulai session untuk menyimpan data
+session_start(); // Memulai session untuk menyimpan data sementara
 
 // Memproses pengiriman form jika metode request adalah POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $task_date = htmlspecialchars(trim($_POST['task_date'])); // Mengambil tanggal tugas
     $deadline_date = htmlspecialchars(trim($_POST['deadline_date'])); // Mengambil tanggal deadline
 
-    // Validasi panjang tugas dan keterangan
+    // Validasi panjang karakter saat menginput data
     if (strlen($task) > 255 || strlen($description) > 500) {
-        $_SESSION['error_message'] = "Tugas atau deskripsi terlalu panjang!"; // Pesan error
+        $_SESSION['error_message'] = "Karakter terlalu panjang!";
     } else {
         // Inisialisasi array tugas jika belum ada
         if (!isset($_SESSION['todos'])) {
@@ -23,11 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'task' => $task,
             'priority' => $priority,
             'description' => $description,
-            'task_date' => $task_date, // Menyimpan tanggal tugas
+            'task_date' => $task_date, // Menyimpan tanggal tugas dimulai
             'deadline_date' => $deadline_date, // Menyimpan tanggal deadline
             'status' => 'Belum Dikerjakan' // Status awal
         ];
-        $_SESSION['success_message'] = "Tugas berhasil ditambahkan!"; // Pesan sukses
+        $_SESSION['success_message'] = "Tugas berhasil ditambahkan!"; // Memunculkan notifikasi pesan tugas berhasil ditambahkan ke daftar
     }
 
     header("Location: index.php"); // Mengalihkan kembali ke halaman index
@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Tugas</title>
+    <!-- CSS Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -78,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php" class="btn btn-secondary">Kembali</a> <!-- Tombol untuk kembali ke halaman index -->
         </form>
     </div>
+    <!-- JS Bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

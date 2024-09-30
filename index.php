@@ -1,5 +1,5 @@
 <?php
-session_start(); // Memulai session untuk menyimpan data
+session_start(); // Memulai session untuk menyimpan data sementara
 
 // Inisialisasi daftar tugas jika belum ada
 if (!isset($_SESSION['todos'])) {
@@ -8,15 +8,15 @@ if (!isset($_SESSION['todos'])) {
 
 // Menangani pesan sukses dan error
 $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : '';
-unset($_SESSION['success_message']); // Menghapus pesan setelah ditampilkan
+unset($_SESSION['success_message']); // Menghapus  notifikasi pesan setelah ditampilkan
 
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-unset($_SESSION['error_message']); // Menghapus pesan error setelah ditampilkan
+unset($_SESSION['error_message']); // Menghapus notifikasi pesan error setelah ditampilkan
 
 // Menandai tugas sebagai selesai
 if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) {
     $_SESSION['todos'][$_GET['mark_done']]['status'] = 'Selesai'; // Memperbarui status
-    $_SESSION['success_message'] = "Tugas berhasil ditandai sebagai selesai!"; // Pesan sukses
+    $_SESSION['success_message'] = "Tugas berhasil ditandai sebagai selesai!"; // Memunculkan notifikasi pesan jika tugas diselesaikan
     header("Location: index.php"); // Mengalihkan kembali ke halaman index
     exit;
 }
@@ -28,6 +28,7 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi To-Do List</title>
+    <!-- CSS Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
