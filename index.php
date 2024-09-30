@@ -55,10 +55,10 @@ if (isset($_GET['mark_done']) && isset($_SESSION['todos'][$_GET['mark_done']])) 
                         <tr>
                             <th>No</th>
                             <th>Nama Tugas</th>
-                            <th>Prioritas</th>
-                            <th>Keterangan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
+                            <th>Tingkat Prioritas</th>
+                            <th>Keterangan Tugas</th>
+                            <th>Status Tugas</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
