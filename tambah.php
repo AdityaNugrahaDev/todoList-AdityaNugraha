@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['task'])) {
 
     // Validasi panjang tugas
     if (strlen($task) > 255) {
-        $_SESSION['error_message'] = "Tugas terlalu panjang! Maksimal 255 karakter.";
+        $_SESSION['error_message'] = "Karakter terlalu panjang! Maksimal 255 karakter.";
     } else {
         // Menambahkan tugas dengan status awal
         $_SESSION['todos'][] = [
